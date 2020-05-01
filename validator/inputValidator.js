@@ -4,18 +4,17 @@ const language = new Language();
 
 const validate = data => {
     let error = {}
-    console.log(data)
 
     // Check blank input
-    if (!data.input) {
-        error.input = 'Please provide an input.'
+    if (!data.ctg) {
+        error.ctg = 'Please provide an input.'
     }
 
     // Guess Language
-    const guess = language.guess(data.input)
+    const guess = language.guess(data.ctg)
     if (guess.length !== 0) {
         if (guess[0].language !== 'Bengali') {
-            error.input = 'Please write in Bangla.'
+            error.ctg = 'Please write in Bangla.'
         }
     }
 
