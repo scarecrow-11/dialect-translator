@@ -3,7 +3,6 @@ const { Language } = require('node-nlp');
 const language = new Language();
 
 const validate = data => {
-    // FIX NEEDED FOR BLANK INPUT ERROR!!!
     let error = {}
     console.log(data)
 
