@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const dictionarySchema = new Schema({
+const wordSchema = new Schema({
     ctg: {
         type: String,
         required: true
@@ -13,5 +13,5 @@ const dictionarySchema = new Schema({
     pos: String
 })
 
-const Dictionary = mongoose.model('Dictionary', dictionarySchema)
-module.exports = Dictionary
+const Word = mongoose.model('words', wordSchema)
+module.exports = Word

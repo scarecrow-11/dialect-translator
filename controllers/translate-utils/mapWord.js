@@ -1,13 +1,13 @@
-const Dictionary = require('../../model/Dictionary')
+const Word = require('../../model/Word')
 
 const mapWord = (res, ctg) => {
-    console.log(ctg)
-    Dictionary.find()
+    return Word.findOne({ctg})
+        .exec()
         .then(result => {
-            console.log(result)
+            return result
         })
         .catch(error => {
-            res.status(500).json({
+            return res.status(500).json({
                 message: 'Server Error Occurred!'
             })
         })

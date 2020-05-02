@@ -18,8 +18,18 @@ module.exports = {
         let tokens = ctg.split(' ')
         console.log(tokens)
         
+        let bngWords = []
+        bngWords.push({name: 'Hello'})
         // Word to Word Mapping
-        mapWord(res, 'Hello')
+        tokens.forEach(token => {
+            mapWord(res, token)
+                .then(bng => {
+                    console.log(bng)
+                    // Check for suffixations
+                })
+        })
+        
+
 
         return res.status(200).json({
             message: 'Hello there! You\'re ready to translate ' + ctg + '.'
