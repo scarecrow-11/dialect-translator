@@ -18,21 +18,37 @@ module.exports = {
         let tokens = ctg.split(' ')
         console.log(tokens)
         
-        let bngWords = []
-        bngWords.push({name: 'Hello'})
+        let bngWordsPromises = []
         // Word to Word Mapping
         tokens.forEach(token => {
-            mapWord(res, token)
-                .then(bng => {
-                    console.log(bng)
-                    // Check for suffixations
+            bngWordsPromises.push(mapWord(token))
+        })
+
+        // Resolve all the 'mapWord' promises to generate the output
+        Promise.all(bngWordsPromises)
+            .then(results => {
+                // Handle for null promise when word not found FIX NEEDED !
+                let bngOutput = ''
+                results.forEach(result => {
+                    bngOutput += result.bng + ' '
                 })
-        })
-        
+                return bngOutput.trim()
+            })
+            .then(bng => {
+                // Return the translation as json response
+                // Translation sentence held in 'bng'
+                return res.status(200).json({
+                    output: bng
+                })
+            })
+            .catch(error => {
+                return res.status(500).json({
+                    message: 'Server Error Occurred!'
+                })
+            })
 
-
-        return res.status(200).json({
-            message: 'Hello there! You\'re ready to translate ' + ctg + '.'
-        })
+        // return res.status(200).json({
+        //     message: 'Hello there! You\'re ready to translate ' + ctg + '.'
+        // })
     }
 }
