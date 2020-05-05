@@ -1,7 +1,8 @@
 // Translate Controller
 const inputValidator = require('../validator/inputValidator')
-const mapWord = require('./translate-utils/mapWord')
 const fixNegation = require('./translate-utils/fixNegation')
+const translateWord = require('./translate-utils/translateWord')
+const generateOutput = require('./translate-utils/generateOutput')
 
 module.exports = {
     translate(req, res) {
@@ -24,31 +25,15 @@ module.exports = {
         let bngWordsPromises = []
         // Word to Word Mapping
         tokens.forEach(token => {
-            bngWordsPromises.push(mapWord(token))
+            // Assemble promises for each word resolve, reject, pending
+            bngWordsPromises.push(translateWord(token))
         })
 
-        // Resolve all the 'mapWord' promises to generate the output
-        Promise.all(bngWordsPromises)
-            .then(results => {
-                let bngOutput = ''
-                for(let i = 0; i < results.length; ++i) {
-                    // Handle for null promise when word not found
-                    if(!results[i]) {
-                        console.log('Not Found!')
-                        // Suffix Hanlding goes here!!!!!!!!!!!!!!!
-
-                        bngOutput += tokens[i] + ' '
-                    } else {
-                        bngOutput += results[i].bng + ' '
-                    }
-                }
-                return bngOutput.trim()
-            })
-            .then(bng => {
-                // Return the translation as json response
-                // Translation sentence held in 'bng'
+        // Resolve all the 'translateWord' promises to generate the output
+        generateOutput(bngWordsPromises, tokens)
+            .then(output => {
                 return res.status(200).json({
-                    output: bng
+                    output
                 })
             })
             .catch(error => {

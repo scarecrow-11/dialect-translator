@@ -5,8 +5,10 @@ const fixNegation = (tokens) => {
             let temp = tokens[i]
             tokens[i] = tokens[i+1]
             tokens[i+1] = temp
+            i++
         }
     }
+    console.log(tokens)
     return tokens
 }
 
