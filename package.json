@@ -23,6 +23,8 @@
     "mongoose": "^5.9.10",
     "morgan": "^1.10.0",
     "natural": "^1.0.3",
-    "node-nlp": "^4.3.0"
+    "node-nlp": "^4.3.0",
+    "webpack": "^4.42.0",
+    "webpack-dev-server": "^3.10.3"
   }
 }
