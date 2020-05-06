@@ -12,7 +12,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-app.use('/api/translate', translateRouter)
+app.use('/api/ctg', translateRouter)
 
 app.get('/', (req, res, next) => {
     res.json({

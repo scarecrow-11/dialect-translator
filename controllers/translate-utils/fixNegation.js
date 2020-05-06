@@ -8,7 +8,6 @@ const fixNegation = (tokens) => {
             i++
         }
     }
-    console.log(tokens)
     return tokens
 }
 
