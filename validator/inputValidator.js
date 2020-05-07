@@ -1,6 +1,6 @@
-const { Language } = require('node-nlp');
+const { Language } = require('node-nlp')
 
-const language = new Language();
+const language = new Language()
 
 const validate = data => {
     let error = {}

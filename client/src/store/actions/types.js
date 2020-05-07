@@ -1,0 +1,2 @@
+export const TRANSLATE_CTG = 'TRANSLATE_CTG'
+export const TRANSLATE_ERROR = 'TRANSLATE_ERROR'

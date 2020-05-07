@@ -31,9 +31,9 @@ module.exports = {
 
         // Resolve all the 'translateWord' promises to generate the output
         generateOutput(bngWordsPromises, tokens)
-            .then(output => {
+            .then(bng => {
                 return res.status(200).json({
-                    output
+                    bng
                 })
             })
             .catch(error => {
