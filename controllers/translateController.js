@@ -3,9 +3,13 @@ const inputValidator = require('../validator/inputValidator')
 const fixNegation = require('./translate-utils/fixNegation')
 const translateWord = require('./translate-utils/translateWord')
 const generateOutput = require('./translate-utils/generateOutput')
+const connectDB = require('../connectDB')
 
 module.exports = {
     translate(req, res) {
+        // Connect to Database
+        connectDB()
+
         // Grab input
         let { ctg } = req.body
 

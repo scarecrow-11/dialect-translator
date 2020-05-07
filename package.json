@@ -8,7 +8,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Scarecrow",
   "license": "ISC",
@@ -26,5 +27,8 @@
     "node-nlp": "^4.3.0",
     "webpack": "^4.42.0",
     "webpack-dev-server": "^3.10.3"
+  },
+  "engines": {
+    "node": "12.16.1"
   }
 }

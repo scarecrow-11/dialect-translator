@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {translateCtg} from '../store/actions/translateActions'
 
 class Home extends React.Component {
@@ -35,13 +36,20 @@ class Home extends React.Component {
         })
     }
 
+    resetForm = event => {
+        event.preventDefault()
+        this.setState({
+            [event.target.name]: ''
+        })
+    }
+
     render() {
         let { ctg, bng, error } = this.state
         return (
             <div className='row'>
                 <div className='col-md-6 offset-md-3'>
                     <h1 className='text-center display-4'>Translate Here</h1>
-                    <form onSubmit={this.submitHandler}>
+                    <form id='ctgForm' onSubmit={this.submitHandler}>
                         {/* Chittagonian Input Box */}
                         <div className='form-group'>
                             <label htmlFor='ctg'> Chittagonian: </label>
@@ -74,7 +82,9 @@ class Home extends React.Component {
                                 onChange={this.changeHandler}
                             />
                         </div>
-                        <button className='btn btn-primary'>Translate</button>
+                        <button className='btn btn-primary' type='submit' onClick={this.submitHandler}>Translate</button>
+                        <button className='btn btn-success mx-3 d-inline' type='reset' onClick={this.resetForm}>Reset</button>
+                        <Link to='#' className='my-1 d-inline float-right'>How it works?</Link>
                     </form>
                 </div>
             </div>
