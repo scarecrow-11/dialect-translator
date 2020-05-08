@@ -37,9 +37,10 @@ class Home extends React.Component {
     }
 
     resetForm = event => {
-        event.preventDefault()
         this.setState({
-            [event.target.name]: ''
+            ctg: '',
+            bng: '',
+            error: {}
         })
     }
 
@@ -48,7 +49,7 @@ class Home extends React.Component {
         return (
             <div className='row'>
                 <div className='col-md-6 offset-md-3'>
-                    <h1 className='text-center display-4'>Translate Here</h1>
+                    <h1 className='text-center my-5 display-4'>Translate Here</h1>
                     <form id='ctgForm' onSubmit={this.submitHandler}>
                         {/* Chittagonian Input Box */}
                         <div className='form-group'>
@@ -83,8 +84,8 @@ class Home extends React.Component {
                             />
                         </div>
                         <button className='btn btn-primary' type='submit' onClick={this.submitHandler}>Translate</button>
-                        <button className='btn btn-success mx-3 d-inline' type='reset' onClick={this.resetForm}>Reset</button>
-                        <Link to='#' className='my-1 d-inline float-right'>How it works?</Link>
+                        <button className='btn btn-success mx-3 d-inline-block' type='reset' onClick={this.resetForm}>Reset</button>
+                        <Link to='#' className='my-1 d-inline-block float-right'>How it works?</Link>
                     </form>
                 </div>
             </div>
