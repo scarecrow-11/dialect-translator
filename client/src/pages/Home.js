@@ -9,6 +9,7 @@ class Home extends React.Component {
     state = {
         ctg: '',
         bng: '',
+        suggestions: [],
         error: {}
     }
 
@@ -26,6 +27,52 @@ class Home extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         })
+
+        // Show suggestions
+        const values = event.target.value.split(' ')
+
+        // Get last word
+        const value = values[values.length-1].trim()
+
+        // Populate suggestions
+        let suggestions = []
+        if(value !== '') {
+            suggestions.push('1')
+            suggestions.push('2')
+            suggestions.push('3')
+        }
+        this.setState({suggestions})
+    }
+
+    // Render suggestions
+    renderSuggestions = () => {
+        const {suggestions} = this.state
+        if(suggestions.length === 0) {
+            return null
+        } else {
+            return (
+                <ul className='list-group'>
+                    {suggestions.map(item => <li key={item.value} className='list-group-item' onClick={() => this.selectSuggestion(item)}>{item}</li>)}
+                </ul>
+            )
+        }
+    }
+
+    // Select Suggestion
+    selectSuggestion = (item) => {
+        let values = this.state.ctg.split(' ')
+        values[values.length-1] = item
+        let newValue = ''
+        values.forEach(value => {
+            newValue += value + ' '
+        })
+
+        this.setState(() => ({
+            ctg: newValue,
+            suggestions: []
+        }))
+        
+        // Set focus to ctg input
     }
 
     submitHandler = event => {
@@ -40,6 +87,7 @@ class Home extends React.Component {
         this.setState({
             ctg: '',
             bng: '',
+            suggestions: [],
             error: {}
         })
     }
@@ -62,7 +110,12 @@ class Home extends React.Component {
                                 id='ctg'
                                 value={ctg}
                                 onChange={this.changeHandler}
+                                autoFocus
                             />
+                            {/* Suggestions autocomplete */}
+                            {this.renderSuggestions()}
+
+                            {/* Show Errors */}
                             { error.ctg && (
                                 <div className='invalid-feedback'>
                                     {error.ctg}
@@ -80,7 +133,6 @@ class Home extends React.Component {
                                 name='bng'
                                 id='bng'
                                 value={bng}
-                                onChange={this.changeHandler}
                             />
                         </div>
                         <button className='btn btn-primary' type='submit' onClick={this.submitHandler}>Translate</button>

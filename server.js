@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const translateRouter = require('./routes/translateRoutes')
+const suggestionRouter = require('./routes/suggestionRoutes')
 const path = require('path')
 
 const app = express()
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.use('/api/ctg', translateRouter)
+app.use('/api/ctg', suggestionRouter)
 
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
