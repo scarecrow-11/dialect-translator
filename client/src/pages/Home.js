@@ -1,4 +1,5 @@
 import React from 'react'
+import Axios from 'axios'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {translateCtg} from '../store/actions/translateActions'
@@ -10,6 +11,7 @@ class Home extends React.Component {
         ctg: '',
         bng: '',
         suggestions: [],
+        activeSuggestion: 0,
         error: {}
     }
 
@@ -23,12 +25,18 @@ class Home extends React.Component {
         return null
     }
 
+    componentDidMount = () => {
+        document.getElementById('ctg').focus()
+    }
+
     changeHandler = event => {
         this.setState({
             [event.target.name]: event.target.value
         })
 
-        // Show suggestions
+        //////////////////////
+        // Show suggestions //
+        //////////////////////
         let values = event.target.value.split(' ')
 
         // Get last word
@@ -47,21 +55,12 @@ class Home extends React.Component {
 
         // Populate wordSuggestions
         let wordSuggestions = []
-        // if(value !== '') {
-        //     suggestions.push('1')
-        //     suggestions.push('2')
-        //     suggestions.push('3')
-        // }
-
+    
+        // Used Axios instead of fetch
         let apiURL = 'http://localhost:4000/api/ctg/suggestion'
-        let options = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        }
-        fetch(apiURL, options)
+        Axios.post(apiURL, data)
             .then(response => {
-                return response.json()
+                return response.data
             })
             .then(result => {
                 result.suggestions.forEach(item => {
@@ -71,7 +70,7 @@ class Home extends React.Component {
             })
             .then(data => {
                 this.setState({
-                    suggestions: wordSuggestions
+                    suggestions: data
                 })
             })
             .catch(error => {
@@ -87,14 +86,20 @@ class Home extends React.Component {
         } else {
             return (
                 <ul className='list-group'>
-                    {suggestions.map((item,index) => <li key={index} className='list-group-item' onClick={() => this.selectSuggestion(item)}>{item}</li>)}
+                    {suggestions.map((item,index) => <li
+                        key={index}
+                        className='list-group-item'
+                        onClick={() => this.selectSuggestion(item)}
+                        >{item}
+                    </li>
+                    )}
                 </ul>
             )
         }
     }
 
     // Select Suggestion
-    selectSuggestion = (item) => {
+    selectSuggestion = item => {
         let values = this.state.ctg.split(' ')
         values[values.length-1] = item
         let newValue = ''
