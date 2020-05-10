@@ -2,13 +2,23 @@ const mongoose = require('mongoose')
 const Word = require('../../model/Word')
 const doubleMetaphone = require('./doubleMetaphone')
 const levenshteinDistance = require('./levenshteinDistance')
-//const connectDB = require('../../connectDB')
+const { Language } = require('node-nlp')
+
+const language = new Language()
 
 const getSuggestions = (word, count) => {
-
-    //connectDB()
     // Encode word1 with Double Metaphone
-    let wordEnc = doubleMetaphone(word)
+
+    let wordEnc = ''
+    // Guess Language
+    const guess = language.guess(word)
+    if (guess.length !== 0) {
+        if (guess[0].language !== 'Bengali') {
+            wordEnc = word
+        } else {
+            wordEnc = doubleMetaphone(word)
+        }
+    }
 
     // Get all ctg words and compare encodings
     return Word.find()

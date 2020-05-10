@@ -29,19 +29,54 @@ class Home extends React.Component {
         })
 
         // Show suggestions
-        const values = event.target.value.split(' ')
+        let values = event.target.value.split(' ')
 
         // Get last word
-        const value = values[values.length-1].trim()
+        let value = values[values.length-1].trim()
 
-        // Populate suggestions
-        let suggestions = []
-        if(value !== '') {
-            suggestions.push('1')
-            suggestions.push('2')
-            suggestions.push('3')
+        let data = {
+            ctg: value
         }
-        this.setState({suggestions})
+
+        if(value === null || value === '') {
+            this.setState({
+                suggestions: []
+            })
+            return
+        }
+
+        // Populate wordSuggestions
+        let wordSuggestions = []
+        // if(value !== '') {
+        //     suggestions.push('1')
+        //     suggestions.push('2')
+        //     suggestions.push('3')
+        // }
+
+        let apiURL = 'http://localhost:4000/api/ctg/suggestion'
+        let options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }
+        fetch(apiURL, options)
+            .then(response => {
+                return response.json()
+            })
+            .then(result => {
+                result.suggestions.forEach(item => {
+                    wordSuggestions.push(item)
+                })
+                return wordSuggestions
+            })
+            .then(data => {
+                this.setState({
+                    suggestions: wordSuggestions
+                })
+            })
+            .catch(error => {
+                console.error(error)
+            })
     }
 
     // Render suggestions
@@ -52,7 +87,7 @@ class Home extends React.Component {
         } else {
             return (
                 <ul className='list-group'>
-                    {suggestions.map(item => <li key={item.value} className='list-group-item' onClick={() => this.selectSuggestion(item)}>{item}</li>)}
+                    {suggestions.map((item,index) => <li key={index} className='list-group-item' onClick={() => this.selectSuggestion(item)}>{item}</li>)}
                 </ul>
             )
         }
@@ -133,6 +168,7 @@ class Home extends React.Component {
                                 name='bng'
                                 id='bng'
                                 value={bng}
+                                readOnly={true}
                             />
                         </div>
                         <button className='btn btn-primary' type='submit' onClick={this.submitHandler}>Translate</button>

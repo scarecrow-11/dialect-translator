@@ -1,18 +1,17 @@
 const connectDB = require('../connectDB')
 const getSuggestion = require('./suggestion-utils/getSuggestions')
 
+// http://localhost:4000/api/ctg/suggestion
 module.exports = {
     suggestion(req, res) {
         // Connect to Database
         connectDB()
 
         // Grab input
-        let { ctg } = req.body
+        let word = req.body.ctg
 
         // Tokenize input data and get the last word
-        ctg = ctg.trim()
-        let tokens = ctg.split(' ')
-        let word = tokens[tokens.length-1]
+        word = word.trim()
 
         // Get Suggestion
         getSuggestion(word, 3)
