@@ -42,10 +42,6 @@ class Home extends React.Component {
         // Get last word
         let value = values[values.length-1].trim()
 
-        let data = {
-            ctg: value
-        }
-
         if(value === null || value === '') {
             this.setState({
                 suggestions: []
@@ -57,8 +53,15 @@ class Home extends React.Component {
         let wordSuggestions = []
     
         // Used Axios instead of fetch
-        let apiURL = 'http://localhost:4000/api/ctg/suggestion'
-        Axios.post(apiURL, data)
+        let apiURL = '/api/ctg/suggestion'
+        let data = {ctg: value}
+        Axios({
+                method: 'post',
+                url: apiURL,
+                data,
+                headers: {'Content-Type': 'application/json'},
+                responseType: 'json'
+            })
             .then(response => {
                 return response.data
             })
